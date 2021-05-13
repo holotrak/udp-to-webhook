@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: basco-udp-to-webhook
+spec:
+  ports:
+  - name: basco-calamp
+    port: 20100
+    protocol: UDP
+    targetPort: 20100
+  selector:
+    app: basco-udp-to-webhook
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: basco-udp-to-webhook
+spec:
+  replicas: 2
+  minReadySeconds: 5
+  selector:
+    matchLabels:
+      app: basco-udp-to-webhook
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: basco-udp-to-webhook
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values: [basco-udp-to-webhook]
+              topologyKey: kubernetes.io/hostname
+      containers:
+      - image: us.gcr.io/github-losant-losant-udp-to-webhook/image:latest
+        imagePullPolicy: Always
+        name: basco-udp-to-webhook
+        resources:
+          limits:
+            memory: 512Mi
+          requests:
+            memory: 256Mi
+        env:
+          - name: NODE_ENV
+            value: production
+          - name: PORT_MAP_20100
+            value: https://triggers.losant.com/webhooks/Kxot68n7WdbLpRmaMUUBj2Z_WyWj0qQWO2DVTJwvaA1$
+        ports:
+          containerPort: 20100

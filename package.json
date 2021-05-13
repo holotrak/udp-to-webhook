@@ -1,0 +1,11 @@
+{
+  "name": "losant-udp-to-webhook",
+  "version": "1.0.0",
+  "main": "main.js",
+  "devDependencies": {
+    "dotenv": "^4.0.0"
+  },
+  "dependencies": {
+    "clipboardy": "^2.3.0"
+  }
+}
