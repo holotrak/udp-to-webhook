@@ -69,7 +69,7 @@ Object.keys(portMapping).forEach((port) => {
         })
 
         // write the message to the client
-        clientReq.write(payload)
+        clientReq.write(JSON.stringify(payload))
         clientReq.end()
     })
 
