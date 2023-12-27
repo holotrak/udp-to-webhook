@@ -6,7 +6,7 @@ const udpServer = dgram.createSocket('udp4');
 const httpServer = http.createServer();
 
 const HTTP_SERVER_PORT = 8080;
-const UDP_SERVER_PORT = 1234;
+const UDP_SERVER_PORT = 9002;
 
 
 let clients = {};
@@ -27,7 +27,7 @@ udpServer.on('listening', () => {
 	console.log(`UDP server listening on ${address.address}:${address.port}`);
 });
 
-udpServer.bind(UDP_SERVER_PORT); // UDP server listens on port 1234
+udpServer.bind(UDP_SERVER_PORT);
 
 // HTTP server to handle requests and send messages to a specific UDP client
 httpServer.on('request', (req, res) => {
