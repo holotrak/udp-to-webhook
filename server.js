@@ -6,7 +6,7 @@ const udpServer = dgram.createSocket('udp4');
 const httpServer = http.createServer();
 
 const HTTP_SERVER_PORT = 8081;
-const UDP_SERVER_PORT = 9002;
+const UDP_SERVER_PORT = 9000;
 
 
 let clients = {};
